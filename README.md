@@ -10,7 +10,7 @@ you specified on the left, and the reverse order on the right.
 Here's the [master..client-side] and [client-side..master] comparison for [one
 of my repos][Jellylorum]:
 
-    [$]> git-tlog --oneline master client-side
+    [$]> git tlog --oneline master client-side
 
 ![git-tlog example screenshot](git-tlog.png)
 
