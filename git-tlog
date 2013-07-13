@@ -32,11 +32,20 @@ unset a[$#-2]
 unset a[$#-1]
 set -- "${a[@]}"
 
-tmux new \
-   -s $program \
-   "git $baseProgram $@ $commitishA$dots$commitishB ; $SHELL" \;\
-   select-layout tiled \;\
-   split-window -h \
-   "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
-   select-pane -t 0 # Focus back on the left pane.
+if [ "$TERM" = screen ]; then
+   git $baseProgram $@ $commitishA$dots$commitishB
+   tmux \
+      select-layout tiled \;\
+      split-window -h \
+      "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
+      select-pane -t 0 # Focus back on the left pane.
+else
+   tmux new \
+      -s $program \
+      "git $baseProgram $@ $commitishA$dots$commitishB ; $SHELL" \;\
+      select-layout tiled \;\
+      split-window -h \
+      "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
+      select-pane -t 0 # Focus back on the left pane.
+fi
 

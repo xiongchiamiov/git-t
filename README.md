@@ -18,6 +18,11 @@ of my repos][Jellylorum]:
 [client-side..master]: https://github.com/xiongchiamiov/jellylorum/compare/client-side...master
 [Jellylorum]: https://github.com/xiongchiamiov/jellylorum/
 
+Already using tmux?  No problem - `git-tlog` identifies that and splits inside
+your current pane:
+
+![git-tlog example screenshot](git-tlog-2.png)
+
 `git-tdiff` is pretty much the same thing, but for `git-diff`.  The other major
 difference is that it uses [three dots], showing you what has changed on each
 branch since their most-recent common commit.
