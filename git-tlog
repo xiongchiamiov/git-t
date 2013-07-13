@@ -5,6 +5,21 @@ if [ $# -lt 2 ] || [ "$1" = --help ] || [ "$1" = -h ]; then
    exit 1
 fi
 
+program=$(basename "$0")
+case $program in
+   git-tlog)
+      dots='..'
+      ;;
+   git-tdiff)
+      dots='...'
+      ;;
+   *)
+      echo "I don't know how to be run as $program; aborting."
+      exit 2
+      ;;
+esac
+baseProgram=$(sed 's/git-t//' <<<"$program")
+
 # Pull the last two parameters out of $@.
 # We can extract arbitrary elements using ${@: -2:1} syntax (
 # http://stackoverflow.com/a/6428901/120999 ), but it doesn't seem possible to
@@ -18,10 +33,10 @@ unset a[$#-1]
 set -- "${a[@]}"
 
 tmux new \
-   -s git-tlog \
-   "git log $@ $commitishA..$commitishB ; $SHELL" \;\
+   -s $program \
+   "git $baseProgram $@ $commitishA$dots$commitishB ; $SHELL" \;\
    select-layout tiled \;\
    split-window -h \
-   "git log $@ $commitishB..$commitishA ; $SHELL" \;\
+   "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
    select-pane -t 0 # Focus back on the left pane.
 
