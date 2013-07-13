@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 if [ $# -lt 2 ] || [ "$1" = --help ] || [ "$1" = -h ]; then
-   echo "Usage: $0 [options] <commitish> <commitish>"
+   echo "Usage: $0 [options] <commitish> <commitish>" >&2
    exit 1
 fi
 
@@ -14,7 +14,7 @@ case $program in
       dots='...'
       ;;
    *)
-      echo "I don't know how to be run as $program; aborting."
+      echo "I don't know how to be run as $program; aborting." >&2
       exit 2
       ;;
 esac
