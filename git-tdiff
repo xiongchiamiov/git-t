@@ -18,10 +18,10 @@ unset a[$#-1]
 set -- "${a[@]}"
 
 tmux new \
-   -s git-tlog \
-   "git log $@ $commitishA..$commitishB ; $SHELL" \;\
+   -s git-tdiff \
+   "git diff $@ $commitishA...$commitishB ; $SHELL" \;\
    select-layout tiled \;\
    split-window -h \
-   "git log $@ $commitishB..$commitishA ; $SHELL" \;\
+   "git diff $@ $commitishB...$commitishA ; $SHELL" \;\
    select-pane -t 0 # Focus back on the left pane.
 
