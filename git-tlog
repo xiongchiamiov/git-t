@@ -1,5 +1,10 @@
 #!/bin/bash -e
 
+if [ "$1" = --version ] || [ "$1" = -v ]; then
+   echo 'git-tlog 0.1'
+   exit 0
+fi
+
 if [ $# -lt 2 ] || [ "$1" = --help ] || [ "$1" = -h ]; then
    echo "Usage: $0 [options] <commitish> <commitish>" >&2
    exit 1
