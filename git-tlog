@@ -46,7 +46,6 @@ set -- "${a[@]}"
 if [ -n "$TMUX" ]; then
    git $baseProgram $@ $commitishA$dots$commitishB
    tmux \
-      select-layout tiled \;\
       split-window -h \
       "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
       select-pane -t 0 # Focus back on the left pane.
