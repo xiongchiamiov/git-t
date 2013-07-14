@@ -43,7 +43,7 @@ unset a[$#-2]
 unset a[$#-1]
 set -- "${a[@]}"
 
-if [ "$TERM" = screen ]; then
+if [ -n "$TMUX" ]; then
    git $baseProgram $@ $commitishA$dots$commitishB
    tmux \
       select-layout tiled \;\
