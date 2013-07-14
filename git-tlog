@@ -5,9 +5,16 @@ if [ "$1" = --version ] || [ "$1" = -v ]; then
    exit 0
 fi
 
-if [ $# -lt 2 ] || [ "$1" = --help ] || [ "$1" = -h ]; then
-   echo "Usage: $0 [options] <commitish> <commitish>" >&2
-   exit 1
+die_with_status () {
+   status="$1"
+   shift
+
+   echo >&2 "$@"
+   exit "$status"
+}
+
+if [ "$#" -lt 2 ] || [ "$1" = --help ] || [ "$1" = -h ]; then
+   die_with_status 1 "Usage: $0 [options] <commitish> <commitish>"
 fi
 
 program=$(basename "$0")
@@ -19,8 +26,7 @@ case $program in
       dots='...'
       ;;
    *)
-      echo "I don't know how to be run as $program; aborting." >&2
-      exit 2
+      die_with_status 2 "I don't know how to be run as $program; aborting."
       ;;
 esac
 baseProgram=$(sed 's/git-t//' <<<"$program")
