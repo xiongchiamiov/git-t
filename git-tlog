@@ -56,4 +56,3 @@ else
       split-window -d -h \
       "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
 fi
-
