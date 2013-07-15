@@ -5,9 +5,16 @@ if [ "$1" = --version ] || [ "$1" = -v ]; then
    exit 0
 fi
 
-if [ $# -lt 2 ] || [ "$1" = --help ] || [ "$1" = -h ]; then
-   echo "Usage: $0 [options] <commitish> <commitish>" >&2
-   exit 1
+die_with_status () {
+   status="$1"
+   shift
+
+   echo >&2 "$@"
+   exit "$status"
+}
+
+if [ "$#" -lt 2 ] || [ "$1" = --help ] || [ "$1" = -h ]; then
+   die_with_status 1 "Usage: $0 [options] <commitish> <commitish>"
 fi
 
 program=$(basename "$0")
@@ -19,8 +26,7 @@ case $program in
       dots='...'
       ;;
    *)
-      echo "I don't know how to be run as $program; aborting." >&2
-      exit 2
+      die_with_status 2 "I don't know how to be run as $program; aborting."
       ;;
 esac
 baseProgram=$(sed 's/git-t//' <<<"$program")
@@ -37,20 +43,16 @@ unset a[$#-2]
 unset a[$#-1]
 set -- "${a[@]}"
 
-if [ "$TERM" = screen ]; then
+if [ -n "$TMUX" ]; then
    git $baseProgram $@ $commitishA$dots$commitishB
    tmux \
-      select-layout tiled \;\
-      split-window -h \
-      "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
-      select-pane -t 0 # Focus back on the left pane.
+      split-window -d -h \
+      "git $baseProgram $@ $commitishB$dots$commitishA" \; \
 else
    tmux new \
       -s $program \
-      "git $baseProgram $@ $commitishA$dots$commitishB ; $SHELL" \;\
+      "git $baseProgram $@ $commitishA$dots$commitishB" \; \
       select-layout tiled \;\
-      split-window -h \
-      "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
-      select-pane -t 0 # Focus back on the left pane.
+      split-window -d -h \
+      "git $baseProgram $@ $commitishB$dots$commitishA" \;\
 fi
-
