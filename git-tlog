@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 if [ "$1" = --version ] || [ "$1" = -v ]; then
-   echo 'git-tlog 0.1'
+   echo 'git-tlog 0.2'
    exit 0
 fi
 
