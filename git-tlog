@@ -47,12 +47,12 @@ if [ -n "$TMUX" ]; then
    git $baseProgram $@ $commitishA$dots$commitishB
    tmux \
       split-window -d -h \
-      "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
+      "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;
 else
    tmux new \
       -s $program \
       "git $baseProgram $@ $commitishA$dots$commitishB ; $SHELL" \;\
       select-layout tiled \;\
       split-window -d -h \
-      "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;\
+      "git $baseProgram $@ $commitishB$dots$commitishA ; $SHELL" \;
 fi
